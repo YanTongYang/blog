@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sitan.dao.BlogCommentDao" >
+  <resultMap id="BaseResultMap" type="com.sitan.entity.BlogComment" >
+    <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="comment_type" property="commentType" jdbcType="INTEGER" />
+    <result column="comment_person" property="commentPerson" jdbcType="VARCHAR" />
+    <result column="comment_date" property="commentDate" jdbcType="TIMESTAMP" />
+    <result column="comment_parent" property="commentParent" jdbcType="INTEGER" />
+    <result column="comment_target" property="commentTarget" jdbcType="INTEGER" />
+    <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.sitan.entity.BlogComment" extends="BaseResultMap" >
+    <result column="comment_content" property="commentContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    comment_id, comment_type, comment_person, comment_date, comment_parent, comment_target, 
+    comment_count
+  </sql>
+  <sql id="Blob_Column_List" >
+    comment_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.sitan.entity.BlogCommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sitan.entity.BlogCommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blog_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from blog_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sitan.entity.BlogCommentExample" >
+    delete from blog_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sitan.entity.BlogComment" >
+    insert into blog_comment (comment_id, comment_type, comment_person, 
+      comment_date, comment_parent, comment_target, 
+      comment_count, comment_content)
+    values (#{commentId,jdbcType=INTEGER}, #{commentType,jdbcType=INTEGER}, #{commentPerson,jdbcType=VARCHAR}, 
+      #{commentDate,jdbcType=TIMESTAMP}, #{commentParent,jdbcType=INTEGER}, #{commentTarget,jdbcType=INTEGER}, 
+      #{commentCount,jdbcType=INTEGER}, #{commentContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sitan.entity.BlogComment" >
+    insert into blog_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        comment_id,
+      </if>
+      <if test="commentType != null" >
+        comment_type,
+      </if>
+      <if test="commentPerson != null" >
+        comment_person,
+      </if>
+      <if test="commentDate != null" >
+        comment_date,
+      </if>
+      <if test="commentParent != null" >
+        comment_parent,
+      </if>
+      <if test="commentTarget != null" >
+        comment_target,
+      </if>
+      <if test="commentCount != null" >
+        comment_count,
+      </if>
+      <if test="commentContent != null" >
+        comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="commentType != null" >
+        #{commentType,jdbcType=INTEGER},
+      </if>
+      <if test="commentPerson != null" >
+        #{commentPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="commentDate != null" >
+        #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentParent != null" >
+        #{commentParent,jdbcType=INTEGER},
+      </if>
+      <if test="commentTarget != null" >
+        #{commentTarget,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null" >
+        #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null" >
+        #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sitan.entity.BlogCommentExample" resultType="java.lang.Integer" >
+    select count(*) from blog_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blog_comment
+    <set >
+      <if test="record.commentId != null" >
+        comment_id = #{record.commentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentType != null" >
+        comment_type = #{record.commentType,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentPerson != null" >
+        comment_person = #{record.commentPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentDate != null" >
+        comment_date = #{record.commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.commentParent != null" >
+        comment_parent = #{record.commentParent,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentTarget != null" >
+        comment_target = #{record.commentTarget,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentCount != null" >
+        comment_count = #{record.commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentContent != null" >
+        comment_content = #{record.commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update blog_comment
+    set comment_id = #{record.commentId,jdbcType=INTEGER},
+      comment_type = #{record.commentType,jdbcType=INTEGER},
+      comment_person = #{record.commentPerson,jdbcType=VARCHAR},
+      comment_date = #{record.commentDate,jdbcType=TIMESTAMP},
+      comment_parent = #{record.commentParent,jdbcType=INTEGER},
+      comment_target = #{record.commentTarget,jdbcType=INTEGER},
+      comment_count = #{record.commentCount,jdbcType=INTEGER},
+      comment_content = #{record.commentContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blog_comment
+    set comment_id = #{record.commentId,jdbcType=INTEGER},
+      comment_type = #{record.commentType,jdbcType=INTEGER},
+      comment_person = #{record.commentPerson,jdbcType=VARCHAR},
+      comment_date = #{record.commentDate,jdbcType=TIMESTAMP},
+      comment_parent = #{record.commentParent,jdbcType=INTEGER},
+      comment_target = #{record.commentTarget,jdbcType=INTEGER},
+      comment_count = #{record.commentCount,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sitan.entity.BlogComment" >
+    update blog_comment
+    <set >
+      <if test="commentType != null" >
+        comment_type = #{commentType,jdbcType=INTEGER},
+      </if>
+      <if test="commentPerson != null" >
+        comment_person = #{commentPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="commentDate != null" >
+        comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentParent != null" >
+        comment_parent = #{commentParent,jdbcType=INTEGER},
+      </if>
+      <if test="commentTarget != null" >
+        comment_target = #{commentTarget,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null" >
+        comment_count = #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null" >
+        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sitan.entity.BlogComment" >
+    update blog_comment
+    set comment_type = #{commentType,jdbcType=INTEGER},
+      comment_person = #{commentPerson,jdbcType=VARCHAR},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      comment_parent = #{commentParent,jdbcType=INTEGER},
+      comment_target = #{commentTarget,jdbcType=INTEGER},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sitan.entity.BlogComment" >
+    update blog_comment
+    set comment_type = #{commentType,jdbcType=INTEGER},
+      comment_person = #{commentPerson,jdbcType=VARCHAR},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      comment_parent = #{commentParent,jdbcType=INTEGER},
+      comment_target = #{commentTarget,jdbcType=INTEGER},
+      comment_count = #{commentCount,jdbcType=INTEGER}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+</mapper>

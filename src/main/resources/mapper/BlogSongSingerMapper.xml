@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sitan.dao.BlogSongSingerDao" >
+  <resultMap id="BaseResultMap" type="com.sitan.entity.BlogSongSinger" >
+    <id column="singer_id" property="singerId" jdbcType="INTEGER" />
+    <result column="singer_name" property="singerName" jdbcType="VARCHAR" />
+    <result column="singer_desc" property="singerDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    singer_id, singer_name, singer_desc
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sitan.entity.BlogSongSingerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blog_song_singer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from blog_song_singer
+    where singer_id = #{singerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from blog_song_singer
+    where singer_id = #{singerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sitan.entity.BlogSongSingerExample" >
+    delete from blog_song_singer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sitan.entity.BlogSongSinger" >
+    insert into blog_song_singer (singer_id, singer_name, singer_desc
+      )
+    values (#{singerId,jdbcType=INTEGER}, #{singerName,jdbcType=VARCHAR}, #{singerDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sitan.entity.BlogSongSinger" >
+    insert into blog_song_singer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="singerId != null" >
+        singer_id,
+      </if>
+      <if test="singerName != null" >
+        singer_name,
+      </if>
+      <if test="singerDesc != null" >
+        singer_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="singerId != null" >
+        #{singerId,jdbcType=INTEGER},
+      </if>
+      <if test="singerName != null" >
+        #{singerName,jdbcType=VARCHAR},
+      </if>
+      <if test="singerDesc != null" >
+        #{singerDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sitan.entity.BlogSongSingerExample" resultType="java.lang.Integer" >
+    select count(*) from blog_song_singer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blog_song_singer
+    <set >
+      <if test="record.singerId != null" >
+        singer_id = #{record.singerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.singerName != null" >
+        singer_name = #{record.singerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.singerDesc != null" >
+        singer_desc = #{record.singerDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blog_song_singer
+    set singer_id = #{record.singerId,jdbcType=INTEGER},
+      singer_name = #{record.singerName,jdbcType=VARCHAR},
+      singer_desc = #{record.singerDesc,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sitan.entity.BlogSongSinger" >
+    update blog_song_singer
+    <set >
+      <if test="singerName != null" >
+        singer_name = #{singerName,jdbcType=VARCHAR},
+      </if>
+      <if test="singerDesc != null" >
+        singer_desc = #{singerDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where singer_id = #{singerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sitan.entity.BlogSongSinger" >
+    update blog_song_singer
+    set singer_name = #{singerName,jdbcType=VARCHAR},
+      singer_desc = #{singerDesc,jdbcType=VARCHAR}
+    where singer_id = #{singerId,jdbcType=INTEGER}
+  </update>
+</mapper>

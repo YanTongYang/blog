@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sitan.dao.BlogMessageDao" >
+  <resultMap id="BaseResultMap" type="com.sitan.entity.BlogMessage" >
+    <id column="message_id" property="messageId" jdbcType="INTEGER" />
+    <result column="message_title" property="messageTitle" jdbcType="VARCHAR" />
+    <result column="message_desc" property="messageDesc" jdbcType="VARCHAR" />
+    <result column="message_type_id" property="messageTypeId" jdbcType="INTEGER" />
+    <result column="message_date" property="messageDate" jdbcType="TIMESTAMP" />
+    <result column="message_count" property="messageCount" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.sitan.entity.BlogMessage" extends="BaseResultMap" >
+    <result column="message_content" property="messageContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    message_id, message_title, message_desc, message_type_id, message_date, message_count
+  </sql>
+  <sql id="Blob_Column_List" >
+    message_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.sitan.entity.BlogMessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sitan.entity.BlogMessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blog_message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from blog_message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sitan.entity.BlogMessageExample" >
+    delete from blog_message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sitan.entity.BlogMessage" >
+    insert into blog_message (message_id, message_title, message_desc,
+      message_type_id, message_date, message_count,
+      message_content)
+    values (#{messageId,jdbcType=INTEGER}, #{messageTitle,jdbcType=VARCHAR}, #{messageDesc,jdbcType=VARCHAR},
+      #{messageTypeId,jdbcType=INTEGER}, #{messageDate,jdbcType=TIMESTAMP}, #{messageCount,jdbcType=INTEGER},
+      #{messageContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sitan.entity.BlogMessage" >
+    insert into blog_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        message_id,
+      </if>
+      <if test="messageTitle != null" >
+        message_title,
+      </if>
+      <if test="messageDesc != null" >
+        message_desc,
+      </if>
+      <if test="messageTypeId != null" >
+        message_type_id,
+      </if>
+      <if test="messageDate != null" >
+        message_date,
+      </if>
+      <if test="messageCount != null" >
+        message_count,
+      </if>
+      <if test="messageContent != null" >
+        message_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="messageTitle != null" >
+        #{messageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="messageDesc != null" >
+        #{messageDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="messageTypeId != null" >
+        #{messageTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="messageDate != null" >
+        #{messageDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageCount != null" >
+        #{messageCount,jdbcType=INTEGER},
+      </if>
+      <if test="messageContent != null" >
+        #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sitan.entity.BlogMessageExample" resultType="java.lang.Integer" >
+    select count(*) from blog_message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blog_message
+    <set >
+      <if test="record.messageId != null" >
+        message_id = #{record.messageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.messageTitle != null" >
+        message_title = #{record.messageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageDesc != null" >
+        message_desc = #{record.messageDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageTypeId != null" >
+        message_type_id = #{record.messageTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.messageDate != null" >
+        message_date = #{record.messageDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.messageCount != null" >
+        message_count = #{record.messageCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.messageContent != null" >
+        message_content = #{record.messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update blog_message
+    set message_id = #{record.messageId,jdbcType=INTEGER},
+      message_title = #{record.messageTitle,jdbcType=VARCHAR},
+      message_desc = #{record.messageDesc,jdbcType=VARCHAR},
+      message_type_id = #{record.messageTypeId,jdbcType=INTEGER},
+      message_date = #{record.messageDate,jdbcType=TIMESTAMP},
+      message_count = #{record.messageCount,jdbcType=INTEGER},
+      message_content = #{record.messageContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blog_message
+    set message_id = #{record.messageId,jdbcType=INTEGER},
+      message_title = #{record.messageTitle,jdbcType=VARCHAR},
+      message_desc = #{record.messageDesc,jdbcType=VARCHAR},
+      message_type_id = #{record.messageTypeId,jdbcType=INTEGER},
+      message_date = #{record.messageDate,jdbcType=TIMESTAMP},
+      message_count = #{record.messageCount,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sitan.entity.BlogMessage" >
+    update blog_message
+    <set >
+      <if test="messageTitle != null" >
+        message_title = #{messageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="messageDesc != null" >
+        message_desc = #{messageDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="messageTypeId != null" >
+        message_type_id = #{messageTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="messageDate != null" >
+        message_date = #{messageDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageCount != null" >
+        message_count = #{messageCount,jdbcType=INTEGER},
+      </if>
+      <if test="messageContent != null" >
+        message_content = #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sitan.entity.BlogMessage" >
+    update blog_message
+    set message_title = #{messageTitle,jdbcType=VARCHAR},
+      message_desc = #{messageDesc,jdbcType=VARCHAR},
+      message_type_id = #{messageTypeId,jdbcType=INTEGER},
+      message_date = #{messageDate,jdbcType=TIMESTAMP},
+      message_count = #{messageCount,jdbcType=INTEGER},
+      message_content = #{messageContent,jdbcType=LONGVARCHAR}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sitan.entity.BlogMessage" >
+    update blog_message
+    set message_title = #{messageTitle,jdbcType=VARCHAR},
+      message_desc = #{messageDesc,jdbcType=VARCHAR},
+      message_type_id = #{messageTypeId,jdbcType=INTEGER},
+      message_date = #{messageDate,jdbcType=TIMESTAMP},
+      message_count = #{messageCount,jdbcType=INTEGER}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+</mapper>
