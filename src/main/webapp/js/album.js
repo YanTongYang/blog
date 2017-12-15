@@ -1,7 +1,13 @@
 $(function(){
     getAlbumList();
 });
-
+var $container = $('.masonry-container');
+$container.imagesLoaded( function () {
+    $container.masonry({
+        columnWidth: '.item',
+        itemSelector: '.item'
+    });
+});
 var cookie;
 var myPicId;
 
@@ -33,7 +39,6 @@ function addUserCookie(){
         return;
     }
     addAlbumComment(leaveMsgUser,$("#commentContent").val());
-
 }
 function addAlbumComment(user,msg){
     var data = {
@@ -68,7 +73,7 @@ function getAlbumList() {
 
 function getAlbumById(picId) {
     myPicId = picId;
-    $.get("/sitan_blog/album/getAlbumsAndComment",{"picId":picId},function(data){
+    $.get("/sitan_blog/album/getAlbumsAndComment",{"picId":picId,"commentType":'2'},function(data){
         $("#myTitle").text(data.picList[0].picTitle);
         $("#myText").text(data.picList[0].picText);
         $("#myPic").attr("src",data.picList[0].picUrl);

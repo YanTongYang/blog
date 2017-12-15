@@ -6,7 +6,6 @@ import com.sitan.entity.BlogComment;
 import com.sitan.entity.BlogCommentExample;
 import com.sitan.service.BlogCommentService;
 import com.sitan.util.RandomUtil;
-import com.sitan.util.StatusType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +19,18 @@ public class BlogCommentServiceImpl implements BlogCommentService{
     @Autowired
     private BlogCommentDao blogCommentDao;
 
-    public List<BlogComment> findPicComments(HttpServletRequest request) {
+    public List<BlogComment> findComments(HttpServletRequest request) {
         BlogCommentExample example = new BlogCommentExample();
+        BlogCommentExample.Criteria criteria = example.createCriteria();
         String picId = request.getParameter("picId");
-        if("" != picId && picId != null){
-            example.createCriteria()
-                    .andCommentTypeEqualTo(StatusType.COMMENT_TYPE_ALBUM)
-                    .andCommentTargetEqualTo(Integer.parseInt(picId));
-            example.setOrderByClause("comment_Date desc");
+        String commentType = request.getParameter("commentType");
+        if("" != commentType && commentType != null){
+            criteria.andCommentTypeEqualTo(Integer.parseInt(commentType));
         }
+        if("" != picId && picId != null){
+            criteria.andCommentTargetEqualTo(Integer.parseInt(picId));
+        }
+        example.setOrderByClause("comment_Date desc");
         List<BlogComment> commentList = blogCommentDao.selectByExampleWithBLOBs(example);
         return commentList;
     }

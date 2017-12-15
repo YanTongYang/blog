@@ -290,3 +290,11 @@ target/sitan_blog-1.0-SNAPSHOT/css/bootstrap-theme.css.map
 target/sitan_blog-1.0-SNAPSHOT/css/bootstrap-theme.css
 target/sitan_blog-1.0-SNAPSHOT/bg/7.jpg
 .idea/vcs.xml
+target/sitan_blog-1.0-SNAPSHOT/js/summernote-zh-CN.js
+target/sitan_blog-1.0-SNAPSHOT/js/msg.js
+target/sitan_blog-1.0-SNAPSHOT/WEB-INF/lib/commons-io-2.2.jar
+target/sitan_blog-1.0-SNAPSHOT/WEB-INF/lib/commons-fileupload-1.3.jar
+target/sitan_blog-1.0-SNAPSHOT/WEB-INF/classes/com/sitan/controller/FileUpload.class
+target/classes/com/sitan/controller/FileUpload.class
+.idea/libraries/Maven__commons_io_commons_io_2_2.xml
+.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_3.xml

@@ -40,7 +40,7 @@ public class BlogAlbumController {
     @RequestMapping(value="/getAlbumsAndComment")
     public Map<String,Object> findAllAlbumAndComments(HttpServletRequest request, Model model){
         List<BlogPic> picList = blogAlbumService.findAllPic(request);
-        List<BlogComment> commentList = blogCommentService.findPicComments(request);
+        List<BlogComment> commentList = blogCommentService.findComments(request);
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("picList", picList);
         map.put("commentList", commentList);

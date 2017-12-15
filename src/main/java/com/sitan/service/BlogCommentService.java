@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BlogCommentService {
 
-    List<BlogComment> findPicComments(HttpServletRequest request);
+    List<BlogComment> findComments(HttpServletRequest request);
 
     String addComment(HttpServletRequest request);
 }

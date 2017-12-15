@@ -4,16 +4,8 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
 	<link rel="stylesheet" href="css/bootstrap.css">
-	<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-
-
 	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/summernote/0.8.8/lang/summernote-zh-CN.js"></script>
-    <!--<link href="https://cdn.bootcss.com/summernote/0.8.8/summernote.css" rel="stylesheet">-->
-  <script src="js/summernote.js"></script>
 	<title>严统洋的留言板</title>
 </head>
 <body>
@@ -98,6 +90,7 @@
   </a>
 </div>
 
+<button id="hiddenUser" class="hidden" data-toggle="modal" data-target="#checkMsg"></button>
 <div class="modal fade" id="checkMsg" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -106,11 +99,11 @@
         <h4 class="modal-title">留言确认</h4>
       </div>
       <div class="modal-body">
-        <input class="form-control" type="text" name="" placeholder="您的默认签名为:路人">
+        <input class="form-control" type="text" id="leaveMsgUser" name="" placeholder="您的默认签名为:路人">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary" onclick="javascript:submitMsg()">确定</button>
+        <button type="button" class="btn btn-default" id="userCloseButton" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" onclick="addUserCookie()">确定</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -121,19 +114,11 @@
 	<p><br></p>
 	</div>
 	<div>
-		<button class="btn btn-primary" data-toggle="modal" data-target="#checkMsg">发表</button>
-		<p><h3>留言(300条)</h3></p>
+		<button class="btn btn-primary" onclick="submitMsg()">发表</button>
+		<p><h3>留言<!--(300条)--></h3></p>
 	</div>
-	<div class="col-sm-8" style="margin-top: 20px;">
-		<pre class="center-block"><code><p>张三：哎呦不错哦~  </p><small>2016-02-05 10:30:24</small></code></pre><hr>
-		<pre class="center-block"><code><p>张三：哎呦不错哦~哎呦不错哦~哎呦不错哦~哎呦不错哦~哎呦不错哦~  </p><small>2016-02-05 10:30:24</small></code></pre><hr>
-		<pre class="center-block"><code><p>张三：哎呦不错哦~  </p><small>2016-02-05 10:30:24</small></code></pre><hr>
-		<pre class="center-block"><code><p>张三：哎呦不错哦~  </p><small>2016-02-05 10:30:24</small></code></pre><hr>
-		<pre class="center-block"><code><p>张三：哎呦不错哦~  </p><small>2016-02-05 10:30:24</small></code></pre><hr>
-		<pre class="center-block"><code><p>张三：哎呦不错哦~  </p><small>2016-02-05 10:30:24</small></code></pre><hr>
-	</div>
+	<div id="blog_Comments" class="col-sm-8" style="margin-top: 20px;"></div>
 </div>
-
 
 <div>
 	<hr>
@@ -142,31 +127,11 @@
 	</footer>
 </div>
 </body>
-  <script>
-  	var textStatu = 0;
-    $(document).ready(function() {
-        $('#summernote').summernote({
-            lang : "zh-CN",
-        	height : 100,
-        	callbacks : {
-        		onImageUpload : function(files){
-        			var $files = $(files);
-        			$files.each(function(){
-        				var file  = this;
-        				var filename = file.name;
-        				var filepath = "userImg/"+filename;
-	        			$('#summernote').summernote('insertImage', filepath, function($image) {
-						// todo，后续可以对image对象增加新的css式样等等，这里默认
-						});
-        			});
-        		}
-        	}
-        });
-    });
-    function submitMsg(){
-    	var s = $('#summernote').summernote('code');
-    	console.log(s);
-    	//alert(s);
-    }
-  </script>
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/myUtil.js"></script>
+<script type="text/javascript" src="js/msg.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+<script src="js/summernote.js"></script>
 </html>
