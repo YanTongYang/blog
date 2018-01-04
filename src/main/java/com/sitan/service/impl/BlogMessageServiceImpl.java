@@ -1,5 +1,6 @@
 package com.sitan.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.sitan.dao.BlogMessageDao;
 import com.sitan.entity.BlogMessage;
 import com.sitan.entity.BlogMessageExample;
@@ -19,6 +20,9 @@ public class BlogMessageServiceImpl implements BlogMessageService{
 
     public List<BlogMessage> selectByCondition(BlogMessage message) {
         BlogMessageExample example = new BlogMessageExample();
+        if(null != message.getMessageTypeId()){
+            example.createCriteria().andMessageTypeIdEqualTo(message.getMessageTypeId());
+        }
         List<BlogMessage> messageList = blogMessageDao.selectByExample(example);
         return messageList;
     }

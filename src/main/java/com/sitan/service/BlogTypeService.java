@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface BlogTypeService {
 
-    List<BlogType> getBLogTypes();
+    List<BlogType> getBLogTypes(BlogType type);
 }

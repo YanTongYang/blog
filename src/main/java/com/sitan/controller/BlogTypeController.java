@@ -18,8 +18,10 @@ public class BlogTypeController {
 
     @ResponseBody
     @RequestMapping(value="getTypes")
-    public List<BlogType> getBLogTypes(){
-       List<BlogType> blogTypeList = blogTypeService.getBLogTypes();
+    public List<BlogType> getBLogTypes(Integer typeTypeId){
+        BlogType type = new BlogType();
+        type.setTypeTypeId(typeTypeId);
+       List<BlogType> blogTypeList = blogTypeService.getBLogTypes(type);
        return blogTypeList;
     }
 

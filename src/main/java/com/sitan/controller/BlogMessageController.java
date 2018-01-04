@@ -20,8 +20,9 @@ public class BlogMessageController {
 
     @ResponseBody
     @RequestMapping(value="/getMessges")
-    public List<BlogMessage> getMessage(){
+    public List<BlogMessage> getMessage(Integer blogTypeId){
         BlogMessage message = new BlogMessage();
+        message.setMessageTypeId(blogTypeId);
         List<BlogMessage> blogMessageList = blogMessageService.selectByCondition(message);
         return blogMessageList;
     }

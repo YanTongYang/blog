@@ -21,8 +21,7 @@ public class BlogCommentController {
     @ResponseBody
     @RequestMapping(value="/addComment",method = RequestMethod.POST)
     public String addComment(HttpServletRequest request){
-        String s = blogCommentService.addComment(request);
-        return s;
+        return blogCommentService.addComment(request);
     }
 
     @ResponseBody

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.UUID;
 
-import static java.lang.System.out;
 
 @Controller
 @RequestMapping(value = "/userImage")
