@@ -4,10 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
 	<link rel="stylesheet" href="css/bootstrap.css">
-	<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 	<title>严统洋的音乐</title>
 </head>
@@ -52,101 +49,39 @@
 	<p style="clear: both;"></p>
 	<div style="height: 44px;background-color: #8D8D8D" >
 		<span class="glyphicon glyphicon-backward btn-lg" style="float: left" title="上一曲"></span>
-		<span class="glyphicon glyphicon-play btn-lg" style="float: left" title="暂停"></span>
+		<span id="play" class="glyphicon glyphicon-play btn-lg" style="float: left" onclick="music.play(this)" title="暂停"></span>
 		<!--<span class="glyphicon glyphicon-pause btn-lg" style="float: left"></span>-->
 		<span class="glyphicon glyphicon-forward btn-lg" style="float: left" title="下一曲"></span>
+		<!--
 		<span class=" glyphicon glyphicon-signal btn-lg" style="float: left" title="音量"></span>
 		<span class=" glyphicon glyphicon-list btn-lg" style="float: left" title="播放列表"></span>
 		<span class="glyphicon glyphicon-repeat btn-lg" style="float: left" title="重复方式"></span>
-
-
-		<div id="fullTime" class="progress col-sm-8 hidden-xs" style="margin-top: 20px;padding-right: 0px;padding-left: 0px;height: 8px;">
+		-->
+		<div id="fullTime" class="progress col-sm-10 hidden-xs" style="margin-top: 20px;padding-right: 0px;padding-left: 0px;height: 8px;">
 			<div id="nowTime" class="progress-bar progress-bar-success" role="progressbar"
 				 aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
 				 style="width: 0%;">
 				<span class="sr-only">90% 完成（成功）</span>
 			</div>
 		</div>
-
-
 	</div>
 	<!--音乐标签结束-->
 	<div class="left col-sm-2"  style="margin-top: 20px">
-			<ul class="list-group">
-			  <h3 class="list-group-item active" style="margin-top: 0px;">分类</h3>
-			  <li class="list-group-item"><a href="#">全部</a></li>
-			  <li class="list-group-item"><a href="#">爱情</a></li>
-			  <li class="list-group-item"><a href="#">激情</a></li>
-			  <li class="list-group-item"><a href="#">文艺</a></li>
-			  <li class="list-group-item"><a href="#">流行</a></li>
-			  <li class="list-group-item"><a href="#">重金属</a></li>
-			</ul>	
+		<ul id="music_type" class="list-group"></ul>
+		<ul id="music_album" class="list-group"></ul>
 	</div>
-	<div class="col-sm-10 panel panel-default" style="margin-top: 20px;padding: 0px;">
+	<div id="content" class="col-sm-10 panel panel-default" style="margin-top: 20px;padding: 0px;">
 	  <!-- Default panel contents -->
-	  <div class="panel-heading" >陈奕迅七月排行榜</div>
-	  <div class="panel-body">
-	    <p>七月排行榜是今年七月份的流行音乐	</p>
-	  </div>
+
 	  <!-- Table -->
-	  <table class="table table-striped">
-	    <thead>
-	    	<tr>
-	    		<th>#</th>
-	    		<th>音乐</th>
-	    		<th>演唱者</th>
-	    		<th>热度</th>
-	    		<th>听&nbsp;&nbsp;赞</th>
-	    	</tr>
-	    </thead>
-	    <tbody>
-	    	<tr ondblclick="javascript:changeMusic();">
-	    		<td >1</td>
-	    		<td>阴天快乐</td>
-	    		<td>陈奕迅</td>
-	    		<td>很热</td>
-	    		<td><a href="javascript:changeMusic();"><span class="glyphicon glyphicon-success glyphicon-headphones"></span></a>&nbsp;&nbsp;
-	    		<a href="#"><span class="glyphicon glyphicon-heart"></span></a></td>
-	    	</tr>
-	    	<tr>
-	    		<td>2</td>
-	    		<td>裙下之臣</td>
-	    		<td>陈奕迅</td>
-	    		<td>很热</td>
-	    		<td><span class="glyphicon glyphicon-success glyphicon-headphones"></span>&nbsp;&nbsp;
-	    		<span class="glyphicon glyphicon-heart"></span></td>
-	    	</tr>
-	    	<tr>
-	    		<td>3</td>
-	    		<td>好久不见</td>
-	    		<td>陈奕迅</td>
-	    		<td>很热</td>
-	    		<td><span class="glyphicon glyphicon-success glyphicon-headphones"></span>&nbsp;&nbsp;
-	    		<span class="glyphicon glyphicon-heart"></span></td>
-	    	</tr>
-	    	<tr>
-	    		<td>4</td>
-	    		<td>陪你度过漫长岁月</td>
-	    		<td>陈奕迅</td>
-	    		<td>很热</td>
-	    		<td><span class="glyphicon glyphicon-success glyphicon-headphones"></span>&nbsp;&nbsp;
-	    		<span class="glyphicon glyphicon-heart"></span></td>
-	    	</tr>
-	    	<tr>
-	    		<td>5</td>
-	    		<td>十年</td>
-	    		<td>陈奕迅</td>
-	    		<td>很热</td>
-	    		<td><span class="glyphicon glyphicon-success glyphicon-headphones"></span>&nbsp;&nbsp;
-	    		<span class="glyphicon glyphicon-heart"></span></td>
-	    	</tr>
-	    </tbody>
+	  <table id="tableContent" class="table table-striped">
+		  <div id="title" class="panel-heading"></div>
+		  <div id="desc" class="panel-body"></div>
+	    <thead><tr><th>#</th><th>歌名</th><th>歌手</th><th>专辑</th><th>类型</th><th>听&nbsp;&nbsp;赞</th></tr></thead>
+	    <tbody id="songBody"></tbody>
 	  </table>
 	</div>
-	<div class="hidden">
-		<audio controls="true" autoplay="true" id="video1" >
-		</audio>
-	</div>
+	<div class="hidden"><audio controls="true" autoplay="true" id="video1" ></audio></div>
 
 </div>
 
@@ -157,39 +92,9 @@
 	</footer>
 </div>
 </body>
-<script type="text/javascript">
-    var interval;
-    var musicTime;
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+<script type="text/javascript" src="js/music.js"></script>
 
-    var nowTime;
-    $("#video1").on("canplay",function(){
-        musicTime =$('#video1').get(0).duration;
-        progressBar(0);
-        interval = setInterval("progressBar()",1000);
-    });
-
-	function progressBar(status){
-        var fullTime = $("#fullTime").width();
-        var perTime = fullTime/musicTime;
-        if(status==null){
-            nowTime = $("#nowTime").width();
-		}else{
-        	nowTime = status;
-        }
-        console.info(nowTime/fullTime);
-	    if(nowTime/fullTime >1){
-            window.clearInterval(interval);
-	        return;
-		}
-		var changeTime = nowTime+ perTime;
-        $("#nowTime").width(changeTime);
-	}
-	function changeMusic(){
-		$("#video1").prepend('<source src="userVid/123.mp3">');
-		$("#video1").load();
-		$("#video1")[0].play();
-        window.clearInterval(interval);
-        progressBar(0);
-	}
-</script>
 </html>
