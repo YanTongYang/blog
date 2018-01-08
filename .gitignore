@@ -313,3 +313,4 @@ target/classes/com/sitan/service/BlogSongService.class
 target/classes/com/sitan/dto/BlogSongDtoList.class
 target/classes/com/sitan/dto/BlogSongDto.class
 target/classes/com/sitan/controller/BlogSongController.class
+target/sitan_blog-1.0-SNAPSHOT/css/music.css
