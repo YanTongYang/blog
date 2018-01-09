@@ -14,6 +14,9 @@ $(function(){
             return;
         }
     });
+    /**
+     * 在cookie中去musicList ,如果有的话，在播放列表中添加   playListName用来标识播放列表，好在将来进行取消播放样式
+     */
     if(musicList.length == 0){
         var cookie = $.cookie("musicList");
         if(cookie){
@@ -38,7 +41,12 @@ $("#video1").on("canplay",function(){
     musicTime =$('#video1').get(0).duration;
 });
 
-
+/**
+ * 跟新进度条，fullTime是整个进度条的长度
+ * nowTime是歌曲现在播放的位置
+ * musicTime是歌曲的时间长度
+ * @param status
+ */
 function progressBar(status){
     var fullTime = $("#fullTime").width();
     if(status==null){
@@ -57,7 +65,10 @@ function progressBar(status){
         window.clearInterval(interval);
         return;
     }
-
+    /**
+     * 这里的Math.floor(musicTime/60)+":"+(musicTime%60/100).toFixed(2).slice(-2)
+     * 把具体的事件转化为秒
+     */
     $("#musicTime").html(Math.floor(musicTime/60)+":"+(musicTime%60/100).toFixed(2).slice(-2));
     $("#currentTime").html(Math.floor(nowTime/60)+":"+(nowTime%60/100).toFixed(2).slice(-2)+"/");
 
@@ -89,7 +100,7 @@ var music= {
         if($(obj).attr("class").split("pause")){
             $(obj).attr("class","glyphicon glyphicon-play btn-lg");
             $(obj).attr("onclick","music.play(this)");
-            $(obj).attr("id","play"); 
+            $(obj).attr("id","play");
         }
         $("#video1")[0].pause();
         window.clearInterval(interval);
@@ -152,6 +163,9 @@ var music= {
                 " onclick=\"javascript:music.changeMusic('"+obj.songName+"','"+obj.songUrl+"',this)\">"+obj.songName+"</a></li>");
             nowMusicIndex = musicList.length-1;
         }
+        /**
+         * 这里是修改播放列表中正在播放的歌曲的样子，具体为添加一个播放的class
+         */
         $("[name='playListName']").attr("class","");
         $.each(musicList,function(index,obj){
             if(obj.songName.indexOf(songName)==0&&obj.songUrl.indexOf(songUrl)==0){
@@ -159,6 +173,11 @@ var music= {
             }
         });
     },
+    /**
+     * 验证播放列表中有没有这首歌
+     * @param songName
+     * @returns {boolean}
+     */
     checkMusicList : function(songName) {
         if(musicList.length == 0){
             return false;
@@ -180,6 +199,11 @@ var music= {
         return false;
     }
 }
+
+/**
+ * 修改音乐的播放方式  0 顺序，1 单曲， 2随机
+ * @param playType
+ */
 function changePlayMethod(playType){
     playStatus = playType;
     if(playStatus == 0){
@@ -197,6 +221,12 @@ function changePlayMethod(playType){
 
 }
 
+/**
+ * 获取固定范围内的整数
+ * @param minNum
+ * @param maxNum
+ * @returns {*}
+ */
 function randomNum(minNum,maxNum){
     switch(arguments.length){
         case 1:
