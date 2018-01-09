@@ -53,6 +53,8 @@
 		<span id="play" class="glyphicon glyphicon-play btn-lg" style="float: left" onclick="music.play(this)" title="暂停"></span>
 		<!--<span class="glyphicon glyphicon-pause btn-lg" style="float: left"></span>-->
 		<span class="glyphicon glyphicon-forward btn-lg" onclick="music.next()" style="float: left" title="下一曲"></span>
+		<span id="musicTime" class=" hidden-xs" style="float: right;margin-top: 14px;margin-right: 45px;"></span>
+		<span id="currentTime" class=" hidden-xs" style="float: right;margin-top: 14px;margin-right: 0px;"></span>
 		<!--
 		<span class=" glyphicon glyphicon-signal btn-lg" style="float: left" title="音量"></span>
 		-->
@@ -66,14 +68,14 @@
 			</ul>
 		</div>
 		<div  class="dropdown ">
-			<span class="glyphicon glyphicon-repeat btn-lg dropdown-toggle" id="dropdownMenu2"
+			<span id="repeatMethod" class="glyphicon glyphicon-repeat btn-lg dropdown-toggle" id="dropdownMenu2"
 				  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="float: left" title="重复方式"></span>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu2" style="margin-top: 50px;background-color: #8D8D8D">
 				<li><a href="#">循环模式</a></li>
 				<li role="separator" class="divider"></li>
-				<li><a href="javascript:changePlayMethod(0)">单曲循环</a></li>
-				<li><a href="javascript:changePlayMethod(1)">顺序播放</a></li>
-				<li><a href="javascript:changePlayMethod(2)">随机播放</a></li>
+				<li><a name="repeatTypeName" href="javascript:changePlayMethod(0)">顺序播放</a></li>
+				<li><a name="repeatTypeName" href="javascript:changePlayMethod(1)">单曲循环</a></li>
+				<li><a name="repeatTypeName" href="javascript:changePlayMethod(2)">随机播放</a></li>
 			</ul>
 		</div>
 		<div id="fullTime" class="progress col-sm-8 hidden-xs" style="margin-top: 20px;padding-right: 0px;padding-left: 0px;height: 8px;">

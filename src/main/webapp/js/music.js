@@ -7,13 +7,12 @@ $(function(){
             music.next();
             return;
         }else if(playStatus == 1){
-            $("#video1")[0].loop = true;
+            progressBar(0);
             return;
         }else if(playStatus == 2){
             music.random();
             return;
         }
-
     });
     if(musicList.length == 0){
         var cookie = $.cookie("musicList");
@@ -21,7 +20,8 @@ $(function(){
             musicList = JSON.parse(cookie);
             if(musicList){
                 $.each(musicList,function(index,obj){
-                    $("#musicListUL").append("<li><a href=\"javascript:music.changeMusic('"+obj.songName+"','"+obj.songUrl+"')\">"+obj.songName+"</a></li>");
+                    $("#musicListUL").append("<li><a  name=\"playListName\" onmouseover=\"this.style.cursor='pointer'\"" +
+                        " onclick=\"javascript:music.changeMusic('"+obj.songName+"','"+obj.songUrl+"')\">"+obj.songName+"</a></li>");
                 });
             }
         }
@@ -29,7 +29,7 @@ $(function(){
 })
 var interval;
 var musicTime; //歌曲时间长度
-var nowTime;  //现在绿条的长度
+var nowTime;  //现在歌曲播放的秒数
 var musicList = []; // 歌曲的播放列表直接遍历是播放列表，按照index遍历是历史播放
 var nowMusicIndex = 0; //现在播放的第几首
 var playStatus = 0; // 0 顺序播放，1 单曲循环 2 随机播放
@@ -40,21 +40,28 @@ $("#video1").on("canplay",function(){
 
 
 function progressBar(status){
-    if(!interval){
-        interval = setInterval("progressBar()",1000);
-    }
     var fullTime = $("#fullTime").width();
-    var perTime = fullTime/musicTime;
     if(status==null){
-        nowTime = $("#nowTime").width();
+        nowTime = $("#video1")[0].currentTime;
     }else{
         nowTime = status;
     }
-    if(nowTime/fullTime >1){
+
+    if(!interval){
+        interval = setInterval("progressBar()",1000);
+    }
+
+    if(nowTime/fullTime >1&&$("#video1")[0].loop==true) {
+        progressBar(0);
+    }else if(nowTime/fullTime >1&&$("#video1")[0].loop==false){
         window.clearInterval(interval);
         return;
     }
-    var changeTime = nowTime+ perTime;
+
+    $("#musicTime").html(Math.floor(musicTime/60)+":"+(musicTime%60/100).toFixed(2).slice(-2));
+    $("#currentTime").html(Math.floor(nowTime/60)+":"+(nowTime%60/100).toFixed(2).slice(-2)+"/");
+
+    var changeTime = fullTime*(nowTime/musicTime);
     $("#nowTime").width(changeTime);
 }
 
@@ -82,7 +89,7 @@ var music= {
         if($(obj).attr("class").split("pause")){
             $(obj).attr("class","glyphicon glyphicon-play btn-lg");
             $(obj).attr("onclick","music.play(this)");
-            $(obj).attr("id","play");
+            $(obj).attr("id","play"); 
         }
         $("#video1")[0].pause();
         window.clearInterval(interval);
@@ -103,18 +110,13 @@ var music= {
         }
         if(playStatus == 0){
         }else if(playStatus == 1){
-            $("#video1")[0].loop = true;
-            return;
         }else if(playStatus == 2){
             music.random();
             return;
         }
         nowMusicIndex ++;
-        if (nowMusicIndex > musicList.length) {
+        if (nowMusicIndex >= musicList.length) {
             nowMusicIndex = 0;
-        }
-        if(nowMusicIndex == musicList.length){
-            nowMusicIndex = musicList.length-1;
         }
         if(nowMusicIndex < 0){
             nowMusicIndex = musicList.length-1;
@@ -127,11 +129,8 @@ var music= {
             return false;
         }
         nowMusicIndex --;
-        if (nowMusicIndex > musicList.length) {
+        if (nowMusicIndex >= musicList.length) {
             nowMusicIndex = 0;
-        }
-        if(nowMusicIndex == musicList.length){
-            nowMusicIndex = musicList.length-1;
         }
         if(nowMusicIndex < 0){
             nowMusicIndex = musicList.length-1;
@@ -149,9 +148,16 @@ var music= {
             });
             musicList.push({"index":1,"songName":songName,"songUrl":songUrl});
             $.cookie("musicList",JSON.stringify(musicList));
-            $("#musicListUL").append("<li><a href=\"javascript:music.changeMusic('"+songName+"','"+songUrl+"')\">"+songName+"</a></li>");
-            nowMusicIndex = musicList.length;
+            $("#musicListUL").append("<li><a name=\"playListName\" onmouseover=\"this.style.cursor='pointer'\"" +
+                " onclick=\"javascript:music.changeMusic('"+obj.songName+"','"+obj.songUrl+"',this)\">"+obj.songName+"</a></li>");
+            nowMusicIndex = musicList.length-1;
         }
+        $("[name='playListName']").attr("class","");
+        $.each(musicList,function(index,obj){
+            if(obj.songName.indexOf(songName)==0&&obj.songUrl.indexOf(songUrl)==0){
+                $("[name='playListName']:eq("+index+")").attr("class","glyphicon glyphicon-headphones btn-lg");
+            }
+        });
     },
     checkMusicList : function(songName) {
         if(musicList.length == 0){
@@ -176,6 +182,19 @@ var music= {
 }
 function changePlayMethod(playType){
     playStatus = playType;
+    if(playStatus == 0){
+        $("#video1")[0].loop = false;
+        $("#repeatMethod").attr("class","glyphicon glyphicon-repeat btn-lg dropdown-toggle");
+    }else if(playStatus == 1){
+        $("#video1")[0].loop = true;
+        $("#repeatMethod").attr("class","glyphicon glyphicon-refresh btn-lg dropdown-toggle");
+    }else if(playStatus == 2){
+        $("#video1")[0].loop = false;
+        $("#repeatMethod").attr("class","glyphicon glyphicon-random btn-lg dropdown-toggle");
+    }
+    $("[name='repeatTypeName']").attr("class","");
+    $("[name='repeatTypeName']:eq("+playType+")").attr("class","glyphicon glyphicon-ok btn-lg");
+
 }
 
 function randomNum(minNum,maxNum){
@@ -230,7 +249,7 @@ function getMusic(typeId,singerId,albumId){
                 "\t    \t\t<td><a href=\"javascript:getMusic(null,"+(obj.songSinger).split("#")[0]+",null)\">"+(obj.songSinger).split("#")[1]+"</td></a>\n" +
                 "\t    \t\t<td><a href=\"javascript:getMusic(null,null,"+(obj.songAlbum).split("#")[0]+")\">"+(obj.songAlbum).split("#")[1]+"</a></td>\n" +
                 "\t    \t\t<td><a href=\"javascript:getMusic("+(obj.songType).split("#")[0]+",null,null);\">"+(obj.songType).split("#")[1]+"</a></td>\n" +
-                "\t    \t\t<td><a href=\"javascript:music.changeMusic('"+obj.songName+"',"+obj.songUrl+");\"><span class=\"glyphicon glyphicon-success glyphicon-headphones\"></span></a>&nbsp;&nbsp;\n" +
+                "\t    \t\t<td><a href=\"javascript:music.changeMusic('"+obj.songName+"',"+obj.songUrl+");\"><span class=\"glyphicon glyphicon-success glyphicon-play-circle\"></span></a>&nbsp;&nbsp;\n" +
                 "\t    \t\t<a href=\"#\"><span class=\"glyphicon glyphicon-heart\"></span></a></td>\n" +
                 "\t    \t</tr>");
         });
