@@ -279,8 +279,7 @@ function getMusic(typeId,singerId,albumId){
                 "\t    \t\t<td><a href=\"javascript:getMusic(null,"+(obj.songSinger).split("#")[0]+",null)\">"+(obj.songSinger).split("#")[1]+"</td></a>\n" +
                 "\t    \t\t<td><a href=\"javascript:getMusic(null,null,"+(obj.songAlbum).split("#")[0]+")\">"+(obj.songAlbum).split("#")[1]+"</a></td>\n" +
                 "\t    \t\t<td><a href=\"javascript:getMusic("+(obj.songType).split("#")[0]+",null,null);\">"+(obj.songType).split("#")[1]+"</a></td>\n" +
-                "\t    \t\t<td><a href=\"javascript:music.changeMusic('"+obj.songName+"',"+obj.songUrl+");\"><span class=\"glyphicon glyphicon-success glyphicon-play-circle\"></span></a>&nbsp;&nbsp;\n" +
-                "\t    \t\t<a href=\"#\"><span class=\"glyphicon glyphicon-heart\"></span></a></td>\n" +
+                "\t    \t\t<td><a href=\"javascript:music.changeMusic('"+obj.songName+"',"+obj.songUrl+");\"><span class=\"glyphicon glyphicon-success glyphicon-play-circle\"></span></a>&nbsp;&nbsp;</td>\n" +
                 "\t    \t</tr>");
         });
     });
