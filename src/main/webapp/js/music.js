@@ -160,7 +160,7 @@ var music= {
             musicList.push({"index":1,"songName":songName,"songUrl":songUrl});
             $.cookie("musicList",JSON.stringify(musicList));
             $("#musicListUL").append("<li><a name=\"playListName\" onmouseover=\"this.style.cursor='pointer'\"" +
-                " onclick=\"javascript:music.changeMusic('"+obj.songName+"','"+obj.songUrl+"',this)\">"+obj.songName+"</a></li>");
+                " onclick=\"javascript:music.changeMusic('"+songName+"','"+songUrl+"',this)\">"+songName+"</a></li>");
             nowMusicIndex = musicList.length-1;
         }
         /**
